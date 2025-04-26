@@ -1,12 +1,13 @@
-package com.example.store
+package com.example.store.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import com.example.store.R
 import com.example.store.viewmodel.SplashViewModel
 
-class MainActivity : AppCompatActivity()
+class LoginActivity : AppCompatActivity()
 {
     private lateinit var splashViewModel: SplashViewModel
 
@@ -23,10 +24,10 @@ class MainActivity : AppCompatActivity()
             splashViewModel.isReady.value == false
         }
 
-        // Inicializar la main activity
+        // Inicializar la login activity
         super.onCreate(savedInstanceState)
 
-        // Cargar el layout para la main activity
-        setContentView(R.layout.activity_main)
+        // Cargar el layout para la login activity
+        setContentView(R.layout.activity_login)
     }
 }
