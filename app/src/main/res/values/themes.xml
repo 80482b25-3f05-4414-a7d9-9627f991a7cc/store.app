@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="Theme.Store" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Tema de la aplicación -->
+    <style name="Theme.Store" parent="Theme.AppCompat.DayNight.NoActionBar" />
+    <!-- Tema de la splash screen -->
+    <style name="Theme.Store.SplashScreen" parent="Theme.SplashScreen">
+        <item name="postSplashScreenTheme">@style/Theme.Store</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenBackground">@color/white</item>
+    </style>
 </resources>

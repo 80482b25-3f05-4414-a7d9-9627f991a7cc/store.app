@@ -1,47 +1,32 @@
 package com.example.store
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.store.ui.theme.StoreTheme
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.ViewModelProvider
+import com.example.store.viewmodel.SplashViewModel
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            StoreTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+class MainActivity : AppCompatActivity()
+{
+    private lateinit var splashViewModel: SplashViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
+        // Instala la splash screen
+        val splashScreen = installSplashScreen()
+
+        // Inicializa el view model de la splash screen
+        splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
+
+        // Muestra la splash screen
+        splashScreen.setKeepOnScreenCondition {
+            splashViewModel.isReady.value == false
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+        // Inicializar la main activity
+        super.onCreate(savedInstanceState)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    StoreTheme {
-        Greeting("Android")
+        // Cargar el layout para la main activity
+        setContentView(R.layout.activity_main)
     }
 }
