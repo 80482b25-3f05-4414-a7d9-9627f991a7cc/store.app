@@ -12,7 +12,7 @@ object UserRepository
         users.add(user)
     }
 
-    // Buscar un usuario por correo
+    // Existe un usuario por correo
     fun existsUserByEmail(username: String): Boolean
     {
         return users.any {
@@ -20,11 +20,21 @@ object UserRepository
         }
     }
 
-    // Buscar un usuario por correo y contraseña
+    // Existe un usuario por correo y contraseña
     fun existsUserByEmailAndPassword(username: String, password: String): Boolean
     {
         return users.any {
             it.username == username && it.password == password
+        }
+    }
+
+    // Restaurar la contraseña
+    fun resetPassword(username: String)
+    {
+        users.find {
+            it.username == username
+        }.let {
+            it?.password = "000000" // Por ahora quemado
         }
     }
 }

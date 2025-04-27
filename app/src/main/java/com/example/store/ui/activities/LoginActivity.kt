@@ -75,9 +75,8 @@ class LoginActivity : AppCompatActivity()
         // Redirigir a la actividad de recuperar contraseña
         forgotPasswordTextView.setOnClickListener()
         {
-            Toast.makeText(this, "Abrir: recuperar contraseña", Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(this, ForgotPasswordActivity::class.java))
-            // finish()
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
+            finish()
         }
 
         // Iniciar sesión y redirigir a la actividad inicial
