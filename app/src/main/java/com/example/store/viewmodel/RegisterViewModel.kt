@@ -5,10 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.store.data.UserRepository
+import com.example.store.model.UserModel
 
-class LoginViewModel : ViewModel()
+class RegisterViewModel : ViewModel()
 {
-    // LiveData para habilitar o deshabilitar el botón de inicio de sesión
+    // LiveData para habilitar o deshabilitar el botón de registro
     private val _isFormValid = MutableLiveData(false)
     val isFormValid: LiveData<Boolean> = _isFormValid
 
@@ -81,12 +82,19 @@ class LoginViewModel : ViewModel()
         }
     }
 
-    // Simular la búsqueda del usuario en la base de datos
-    fun validateLogin(username: String, password: String): Boolean
+    // Validar si el usuario ya existe
+    fun validateIfUserExists(username: String): Boolean
     {
-        return UserRepository.existsUserByEmailAndPassword(
-            username = username,
-            password = password
+        return UserRepository.existsUserByEmail(
+            username = username
+        )
+    }
+
+    // Simular la inserción del usuario en la base de datos
+    fun register(username: String, password: String)
+    {
+        return UserRepository.addUser(
+            UserModel(username = username, password = password)
         )
     }
 

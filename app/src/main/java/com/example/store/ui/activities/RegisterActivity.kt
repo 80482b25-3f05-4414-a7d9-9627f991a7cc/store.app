@@ -6,60 +6,41 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.store.R
-import com.example.store.viewmodel.LoginViewModel
-import com.example.store.viewmodel.SplashViewModel
+import com.example.store.viewmodel.RegisterViewModel
 import com.google.android.material.textfield.TextInputLayout
 
-class LoginActivity : AppCompatActivity()
+class RegisterActivity : AppCompatActivity()
 {
     // Elementos gráficos
-    private lateinit var forgotPasswordTextView: TextView
-    private lateinit var loginButton: Button
+    private lateinit var registerButton: Button
     private lateinit var passwordEditText: EditText
     private lateinit var passwordInputLayout: TextInputLayout
-    private lateinit var registerTextView: TextView
     private lateinit var usernameEditText: EditText
     private lateinit var usernameInputLayout: TextInputLayout
 
     // View models
-    private lateinit var loginViewModel: LoginViewModel
-    private lateinit var splashViewModel: SplashViewModel
+    private lateinit var registerViewModel: RegisterViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        // Instala la splash screen
-        val splashScreen = installSplashScreen()
+        // Inicializa el view model de la register activity
+        registerViewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
 
-        // Inicializa el view model de la login activity
-        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
-
-        // Inicializa el view model de la splash screen
-        splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
-
-        // Muestra la splash screen
-        splashScreen.setKeepOnScreenCondition {
-            splashViewModel.isReady.value == false
-        }
-
-        // Inicializar la login activity
+        // Inicializar la register activity
         super.onCreate(savedInstanceState)
 
-        // Cargar el layout para la login activity
-        setContentView(R.layout.activity_login)
+        // Cargar el layout para la register activity
+        setContentView(R.layout.activity_register)
 
         // Inicializar los elementos gráficos
-        forgotPasswordTextView = findViewById<TextView>(R.id.forgotPasswordTextView)
-        loginButton = findViewById<Button>(R.id.loginButton)
+        registerButton = findViewById<Button>(R.id.registerButton)
         passwordEditText = findViewById<EditText>(R.id.passwordEditText)
         passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
-        registerTextView = findViewById<TextView>(R.id.registerTextView)
         usernameEditText = findViewById<EditText>(R.id.usernameEditText)
         usernameInputLayout = findViewById<TextInputLayout>(R.id.usernameInputLayout)
 
@@ -72,29 +53,24 @@ class LoginActivity : AppCompatActivity()
 
     private fun setupListeners()
     {
-        // Redirigir a la actividad de recuperar contraseña
-        forgotPasswordTextView.setOnClickListener()
-        {
-            Toast.makeText(this, "Abrir: recuperar contraseña", Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(this, ForgotPasswordActivity::class.java))
-            // finish()
-        }
-
         // Iniciar sesión y redirigir a la actividad inicial
-        loginButton.setOnClickListener()
+        registerButton.setOnClickListener()
         {
             val username = usernameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (loginViewModel.validateLogin(username, password))
+            if (registerViewModel.validateIfUserExists(username = username))
             {
-                Toast.makeText(this, "Bienvenid@ $username!", Toast.LENGTH_SHORT).show()
-                // startActivity(Intent(this, HomeActivity::class.java))
-                // finish()
+                Toast.makeText(this, "Ya estás registrad@", Toast.LENGTH_SHORT).show()
             }
             else
             {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                registerViewModel.register(username, password)
+                Toast.makeText(
+                    this, "Bienvenid@ $username!. Ya puedes iniciar sesión.", Toast.LENGTH_SHORT
+                ).show()
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
             }
         }
 
@@ -103,7 +79,7 @@ class LoginActivity : AppCompatActivity()
         {
             override fun afterTextChanged(password: Editable?)
             {
-                loginViewModel.onPasswordChanged(password.toString())
+                registerViewModel.onPasswordChanged(password.toString())
             }
 
             override fun beforeTextChanged(
@@ -115,19 +91,12 @@ class LoginActivity : AppCompatActivity()
             ) { }
         })
 
-        // Redirigir a la actividad de registrar nuevo usuario
-        registerTextView.setOnClickListener()
-        {
-            startActivity(Intent(this, RegisterActivity::class.java))
-            finish()
-        }
-
         // Escucha los cambios en el campo usuario
         usernameEditText.addTextChangedListener(object : TextWatcher
         {
             override fun afterTextChanged(username: Editable?)
             {
-                loginViewModel.onUsernameChanged(username.toString())
+                registerViewModel.onUsernameChanged(username.toString())
             }
 
             override fun beforeTextChanged(
@@ -143,12 +112,12 @@ class LoginActivity : AppCompatActivity()
     private fun setupObservers()
     {
         // Observa el estado del formulario para habilitar o deshabilitar el botón de iniciar sesión
-        loginViewModel.isFormValid.observe(this, Observer { valid ->
-            loginButton.isEnabled = valid
+        registerViewModel.isFormValid.observe(this, Observer { valid ->
+            registerButton.isEnabled = valid
         })
 
         // Observa el estado del campo de la contraseña para mostrar los errores
-        loginViewModel.isPasswordValid.observe(this, Observer { valid ->
+        registerViewModel.isPasswordValid.observe(this, Observer { valid ->
             if (valid == null || valid.first) {
                 passwordInputLayout.error = null
                 passwordInputLayout.isErrorEnabled = false
@@ -158,7 +127,7 @@ class LoginActivity : AppCompatActivity()
         })
 
         // Observa el estado del campo del usuario para mostrar los errores
-        loginViewModel.isUsernameValid.observe(this, Observer { valid ->
+        registerViewModel.isUsernameValid.observe(this, Observer { valid ->
             if (valid == null || valid.first) {
                 usernameInputLayout.error = null
                 usernameInputLayout.isErrorEnabled = false

@@ -6,4 +6,7 @@
     <string name="login_sign_in">Iniciar sesión</string>
     <string name="login_sign_up">Registrarme</string>
     <string name="login_username">Correo electrónico</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_sign_up">Registrarme</string>
+    <string name="register_username">Correo electrónico</string>
 </resources>
