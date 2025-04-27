@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">store</string>
+    <string name="login_app_image">Imagen de la aplicación</string>
+    <string name="login_forgot_my_password">Olvidé mi contraseña</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_sign_in">Iniciar sesión</string>
+    <string name="login_sign_up">Registrarme</string>
+    <string name="login_username">Correo electrónico</string>
 </resources>
