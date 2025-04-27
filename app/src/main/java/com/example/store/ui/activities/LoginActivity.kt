@@ -1,5 +1,6 @@
 package com.example.store.ui.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -18,6 +19,16 @@ import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity()
 {
+    // Elementos gráficos
+    private lateinit var forgotPasswordTextView: TextView
+    private lateinit var loginButton: Button
+    private lateinit var passwordEditText: EditText
+    private lateinit var passwordInputLayout: TextInputLayout
+    private lateinit var registerTextView: TextView
+    private lateinit var usernameEditText: EditText
+    private lateinit var usernameInputLayout: TextInputLayout
+
+    // View models
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var splashViewModel: SplashViewModel
 
@@ -44,14 +55,92 @@ class LoginActivity : AppCompatActivity()
         setContentView(R.layout.activity_login)
 
         // Inicializar los elementos gráficos
-        val forgotPasswordTextView = findViewById<TextView>(R.id.forgotPasswordTextView)
-        val loginButton = findViewById<Button>(R.id.loginButton)
-        val passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        val passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
-        val registerTextView = findViewById<TextView>(R.id.registerTextView)
-        val usernameEditText = findViewById<EditText>(R.id.usernameEditText)
-        val usernameInputLayout = findViewById<TextInputLayout>(R.id.usernameInputLayout)
+        forgotPasswordTextView = findViewById<TextView>(R.id.forgotPasswordTextView)
+        loginButton = findViewById<Button>(R.id.loginButton)
+        passwordEditText = findViewById<EditText>(R.id.passwordEditText)
+        passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
+        registerTextView = findViewById<TextView>(R.id.registerTextView)
+        usernameEditText = findViewById<EditText>(R.id.usernameEditText)
+        usernameInputLayout = findViewById<TextInputLayout>(R.id.usernameInputLayout)
 
+        // Configurar los listeners
+        setupListeners()
+
+        // Configurar los observers
+        setupObservers()
+    }
+
+    private fun setupListeners()
+    {
+        // Redirigir a la actividad de recuperar contraseña
+        forgotPasswordTextView.setOnClickListener()
+        {
+            Toast.makeText(this, "Abrir: recuperar contraseña", Toast.LENGTH_SHORT).show()
+            // startActivity(Intent(this, ForgotPasswordActivity::class.java))
+            // finish()
+        }
+
+        // Iniciar sesión y redirigir a la actividad inicial
+        loginButton.setOnClickListener()
+        {
+            val username = usernameEditText.text.toString().trim()
+            val password = passwordEditText.text.toString().trim()
+
+            if (loginViewModel.validateLogin(username, password))
+            {
+                Toast.makeText(this, "Bienvenido $username", Toast.LENGTH_SHORT).show()
+                // startActivity(Intent(this, HomeActivity::class.java))
+                // finish()
+            }
+            else
+            {
+                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Escucha los cambios en el campo contraseña
+        passwordEditText.addTextChangedListener(object : TextWatcher
+        {
+            override fun afterTextChanged(password: Editable?)
+            {
+                loginViewModel.onPasswordChanged(password.toString())
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) { }
+
+            override fun onTextChanged(
+                s: CharSequence?, start: Int, before: Int, count: Int
+            ) { }
+        })
+
+        // Redirigir a la actividad de registrar nuevo usuario
+        registerTextView.setOnClickListener()
+        {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
+
+        // Escucha los cambios en el campo usuario
+        usernameEditText.addTextChangedListener(object : TextWatcher
+        {
+            override fun afterTextChanged(username: Editable?)
+            {
+                loginViewModel.onUsernameChanged(username.toString())
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence?, start: Int, count: Int, after: Int
+            ) { }
+
+            override fun onTextChanged(
+                s: CharSequence?, start: Int, before: Int, count: Int
+            ) { }
+        })
+    }
+
+    private fun setupObservers()
+    {
         // Observa el estado del formulario para habilitar o deshabilitar el botón de iniciar sesión
         loginViewModel.isFormValid.observe(this, Observer { valid ->
             loginButton.isEnabled = valid
@@ -76,73 +165,5 @@ class LoginActivity : AppCompatActivity()
                 usernameInputLayout.error = valid.second
             }
         })
-
-        // Escucha los cambios en el campo usuario
-        usernameEditText.addTextChangedListener(object : TextWatcher
-        {
-            override fun afterTextChanged(username: Editable?)
-            {
-                loginViewModel.onUsernameChanged(username.toString())
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence?, start: Int, count: Int, after: Int
-            ) { }
-
-            override fun onTextChanged(
-                s: CharSequence?, start: Int, before: Int, count: Int
-            ) { }
-        })
-
-        // Escucha los cambios en el campo contraseña
-        passwordEditText.addTextChangedListener(object : TextWatcher
-        {
-            override fun afterTextChanged(password: Editable?)
-            {
-                loginViewModel.onPasswordChanged(password.toString())
-            }
-
-            override fun beforeTextChanged(
-                s: CharSequence?, start: Int, count: Int, after: Int
-            ) { }
-
-            override fun onTextChanged(
-                s: CharSequence?, start: Int, before: Int, count: Int
-            ) { }
-        })
-
-        // Iniciar sesión y redirigir a la actividad inicial
-        loginButton.setOnClickListener()
-        {
-            val username = usernameEditText.text.toString().trim()
-            val password = passwordEditText.text.toString().trim()
-
-            if (loginViewModel.validateLogin(username, password))
-            {
-                Toast.makeText(this, "Bienvenido $username", Toast.LENGTH_SHORT).show()
-                // startActivity(Intent(this, HomeActivity::class.java))
-                // finish()
-            }
-            else
-            {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        // Redirigir a la actividad de registrar nuevo usuario
-        registerTextView.setOnClickListener()
-        {
-            Toast.makeText(this, "Abrir: registro", Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(this, RegisterActivity::class.java))
-            // finish()
-        }
-
-        // Redirigir a la actividad de recuperar contraseña
-        forgotPasswordTextView.setOnClickListener()
-        {
-            Toast.makeText(this, "Abrir: recuperar contraseña", Toast.LENGTH_SHORT).show()
-            // startActivity(Intent(this, ForgotPasswordActivity::class.java))
-            // finish()
-        }
     }
 }
