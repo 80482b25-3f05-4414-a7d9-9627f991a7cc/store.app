@@ -37,7 +37,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.constraintlayout)
     // Android test implementation
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
@@ -48,6 +47,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     // Implementation
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.appcompat)
+    implementation(libs.material)
     implementation(platform(libs.androidx.compose.bom))
     // Test implementation
     testImplementation(libs.junit)
