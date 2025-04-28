@@ -10,4 +10,6 @@
     <string name="register_password">Contraseña</string>
     <string name="register_sign_up">Registrarme</string>
     <string name="register_username">Correo electrónico</string>
+    <string name="home_shopping_cart">Carrito de compras</string>
+    <string name="home_logout">Cerrar sesión</string>
 </resources>

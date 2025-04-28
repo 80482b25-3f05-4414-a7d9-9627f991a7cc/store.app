@@ -87,9 +87,8 @@ class LoginActivity : AppCompatActivity()
 
             if (loginViewModel.validateLogin(username, password))
             {
-                Toast.makeText(this, "Bienvenid@ $username!", Toast.LENGTH_SHORT).show()
-                // startActivity(Intent(this, HomeActivity::class.java))
-                // finish()
+                startActivity(Intent(this, HomeActivity::class.java))
+                finish()
             }
             else
             {
