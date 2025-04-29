@@ -18,14 +18,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private val homeViewModel: HomeViewModel by viewModels()
 
-    // Actualizamos la instancia del adaptador pasando la lambda para manejar el cambio de cantidad
     private val adapter = ProductsAdapter { product, newQuantity ->
-        // Aquí puedes manejar lo que sucede cuando la cantidad cambia
-        // Por ejemplo, si quieres mostrar un log:
         Log.d("HomeActivity", "Cantidad de ${product.name} cambiada a $newQuantity")
-
-        // O si quieres actualizar el carrito, puedes hacerlo aquí.
-        // Si tienes una lista de productos en el carrito, actualiza la cantidad aquí.
         updateCart(product)
     }
 
@@ -82,9 +76,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun updateCart(product: Product) {
-        // Aquí implementas la lógica de lo que ocurre cuando la cantidad cambia
-        // Por ejemplo, puedes agregar el producto a un carrito global o en memoria.
-        // Esto es solo un ejemplo de cómo podrías manejarlo.
         Log.d("HomeActivity", "Producto añadido al carrito: ${product.name} con cantidad: ${product.quantity}")
     }
 }

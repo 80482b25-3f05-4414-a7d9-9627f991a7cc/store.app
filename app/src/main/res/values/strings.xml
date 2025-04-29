@@ -1,15 +1,22 @@
 <resources>
+    <!-- Aplicación -->
+    <string name="app_domain">store.app</string>
     <string name="app_name">store</string>
+    <!-- Forgot password -->
     <string name="forgot_password_recover">Recuperar contraseña</string>
+    <!-- Login -->
     <string name="login_app_image">Imagen de la aplicación</string>
     <string name="login_forgot_my_password">Olvidé mi contraseña</string>
+    <string name="login_greeting">Hola, nos alegra volver a verte!</string>
     <string name="login_password">Contraseña</string>
-    <string name="login_sign_in">Iniciar sesión</string>
+    <string name="login_sign_in">Inicia sesión</string>
     <string name="login_sign_up">Registrarme</string>
     <string name="login_username">Correo electrónico</string>
+    <!-- Registro -->
     <string name="register_password">Contraseña</string>
     <string name="register_sign_up">Registrarme</string>
     <string name="register_username">Correo electrónico</string>
-    <string name="home_shopping_cart">Carrito de compras</string>
+    <!-- Home -->
     <string name="home_logout">Cerrar sesión</string>
+    <string name="home_shopping_cart">Carrito de compras</string>
 </resources>

@@ -8,4 +8,9 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenBackground">@color/white</item>
     </style>
+    <!-- Apariencia de hint/label en rojo -->
+    <style name="HintRed" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:textColor">@color/redAccent</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>
