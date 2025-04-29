@@ -10,7 +10,7 @@
 
     <!-- Logo -->
     <ImageView
-        android:id="@+id/ivLogo"
+        android:id="@+id/logoImageView"
         android:contentDescription="@string/app_name"
         android:layout_height="128dp"
         android:layout_marginTop="64dp"
@@ -23,7 +23,7 @@
 
     <!-- Dominio -->
     <TextView
-        android:id="@+id/tvAppName"
+        android:id="@+id/domainTextView"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="8dp"
@@ -32,12 +32,12 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ivLogo"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView"
         />
 
     <!-- Inicia sesión -->
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/loginTextView"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_marginTop="48dp"
@@ -46,12 +46,12 @@
         android:textColor="@color/grayDark"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvAppName"
+        app:layout_constraintTop_toBottomOf="@id/domainTextView"
         />
 
     <!-- Saludo -->
     <TextView
-        android:id="@+id/tvSubtitle"
+        android:id="@+id/greetingTextView"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_width="0dp"
@@ -60,7 +60,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/loginTextView"
         />
 
     <!-- Usuario -->
@@ -79,7 +79,7 @@
         app:hintTextColor="@color/redAccent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvSubtitle"
+        app:layout_constraintTop_toBottomOf="@id/greetingTextView"
         >
 
         <com.google.android.material.textfield.TextInputEditText
