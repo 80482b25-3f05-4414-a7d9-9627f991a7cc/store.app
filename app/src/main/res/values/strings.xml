@@ -5,6 +5,7 @@
     <!-- Forgot password -->
     <string name="forgot_password_recover">Recuperar</string>
     <string name="forgot_password_recover_password">Recuperar contraseña</string>
+    <string name="forgot_password_username">Correo electrónico</string>
     <!-- Login -->
     <string name="login_app_image">Imagen de la aplicación</string>
     <string name="login_forgot_my_password">Olvidé mi contraseña</string>
