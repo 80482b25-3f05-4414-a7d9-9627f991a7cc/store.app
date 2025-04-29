@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.store.R
@@ -63,9 +62,9 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        homeViewModel.products.observe(this, Observer { products ->
+        homeViewModel.products.observe(this) { products ->
             adapter.submitList(products.toList()) // Importante: enviar una copia para forzar actualización
-        })
+        }
     }
 
     private fun setupListeners() {

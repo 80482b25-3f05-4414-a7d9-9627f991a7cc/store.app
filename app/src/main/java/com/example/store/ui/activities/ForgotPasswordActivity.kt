@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.store.R
 import com.example.store.viewmodel.ForgotPasswordViewModel
@@ -36,9 +35,9 @@ class ForgotPasswordActivity : AppCompatActivity()
         setContentView(R.layout.activity_forgot_password)
 
         // Inicializar los elementos gráficos
-        resetPasswordButton = findViewById<Button>(R.id.resetPasswordButton)
-        usernameEditText = findViewById<EditText>(R.id.usernameEditText)
-        usernameInputLayout = findViewById<TextInputLayout>(R.id.usernameInputLayout)
+        resetPasswordButton = findViewById(R.id.resetPasswordButton)
+        usernameEditText = findViewById(R.id.usernameEditText)
+        usernameInputLayout = findViewById(R.id.usernameInputLayout)
 
         // Configurar los listeners
         setupListeners()
@@ -60,7 +59,7 @@ class ForgotPasswordActivity : AppCompatActivity()
             }
 
             Toast.makeText(
-                this, "Si tu usuario existe, te enviamos un correo.", Toast.LENGTH_SHORT
+                this, "Te enviamos un correo de recuperación.", Toast.LENGTH_SHORT
             ).show()
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
@@ -87,18 +86,18 @@ class ForgotPasswordActivity : AppCompatActivity()
     private fun setupObservers()
     {
         // Observa el estado del formulario para habilitar o deshabilitar el botón de iniciar sesión
-        forgotPasswordViewModel.isFormValid.observe(this, Observer { valid ->
+        forgotPasswordViewModel.isFormValid.observe(this) { valid ->
             resetPasswordButton.isEnabled = valid
-        })
+        }
 
         // Observa el estado del campo del usuario para mostrar los errores
-        forgotPasswordViewModel.isUsernameValid.observe(this, Observer { valid ->
+        forgotPasswordViewModel.isUsernameValid.observe(this) { valid ->
             if (valid == null || valid.first) {
                 usernameInputLayout.error = null
                 usernameInputLayout.isErrorEnabled = false
             } else {
                 usernameInputLayout.error = valid.second
             }
-        })
+        }
     }
 }

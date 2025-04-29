@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.store.R
 import com.example.store.viewmodel.RegisterViewModel
@@ -38,11 +37,11 @@ class RegisterActivity : AppCompatActivity()
         setContentView(R.layout.activity_register)
 
         // Inicializar los elementos gráficos
-        registerButton = findViewById<Button>(R.id.registerButton)
-        passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
-        usernameEditText = findViewById<EditText>(R.id.usernameEditText)
-        usernameInputLayout = findViewById<TextInputLayout>(R.id.usernameInputLayout)
+        registerButton = findViewById(R.id.registerButton)
+        passwordEditText = findViewById(R.id.passwordEditText)
+        passwordInputLayout = findViewById(R.id.passwordInputLayout)
+        usernameEditText = findViewById(R.id.usernameEditText)
+        usernameInputLayout = findViewById(R.id.usernameInputLayout)
 
         // Configurar los listeners
         setupListeners()
@@ -61,17 +60,20 @@ class RegisterActivity : AppCompatActivity()
 
             if (registerViewModel.validateIfUserExists(username = username))
             {
-                Toast.makeText(this, "Ya estás registrad@", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this, "Ya estás registrad@, inicia sesión.", Toast.LENGTH_SHORT
+                ).show()
             }
             else
             {
                 registerViewModel.register(username, password)
                 Toast.makeText(
-                    this, "Bienvenid@ $username!. Ya puedes iniciar sesión.", Toast.LENGTH_SHORT
+                    this, "Bienvenid@ $username!", Toast.LENGTH_SHORT
                 ).show()
-                startActivity(Intent(this, LoginActivity::class.java))
-                finish()
             }
+
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
 
         // Escucha los cambios en el campo contraseña
@@ -112,28 +114,28 @@ class RegisterActivity : AppCompatActivity()
     private fun setupObservers()
     {
         // Observa el estado del formulario para habilitar o deshabilitar el botón de iniciar sesión
-        registerViewModel.isFormValid.observe(this, Observer { valid ->
+        registerViewModel.isFormValid.observe(this) { valid ->
             registerButton.isEnabled = valid
-        })
+        }
 
         // Observa el estado del campo de la contraseña para mostrar los errores
-        registerViewModel.isPasswordValid.observe(this, Observer { valid ->
+        registerViewModel.isPasswordValid.observe(this) { valid ->
             if (valid == null || valid.first) {
                 passwordInputLayout.error = null
                 passwordInputLayout.isErrorEnabled = false
             } else {
                 passwordInputLayout.error = valid.second
             }
-        })
+        }
 
         // Observa el estado del campo del usuario para mostrar los errores
-        registerViewModel.isUsernameValid.observe(this, Observer { valid ->
+        registerViewModel.isUsernameValid.observe(this) { valid ->
             if (valid == null || valid.first) {
                 usernameInputLayout.error = null
                 usernameInputLayout.isErrorEnabled = false
             } else {
                 usernameInputLayout.error = valid.second
             }
-        })
+        }
     }
 }

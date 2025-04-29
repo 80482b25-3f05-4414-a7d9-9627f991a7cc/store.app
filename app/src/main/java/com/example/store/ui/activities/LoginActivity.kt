@@ -10,7 +10,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.store.R
 import com.example.store.viewmodel.LoginViewModel
@@ -55,13 +54,13 @@ class LoginActivity : AppCompatActivity()
         setContentView(R.layout.activity_login)
 
         // Inicializar los elementos gráficos
-        forgotPasswordTextView = findViewById<TextView>(R.id.forgotPasswordTextView)
-        loginButton = findViewById<Button>(R.id.loginButton)
-        passwordEditText = findViewById<EditText>(R.id.passwordEditText)
-        passwordInputLayout = findViewById<TextInputLayout>(R.id.passwordInputLayout)
-        registerTextView = findViewById<TextView>(R.id.registerTextView)
-        usernameEditText = findViewById<EditText>(R.id.usernameEditText)
-        usernameInputLayout = findViewById<TextInputLayout>(R.id.usernameInputLayout)
+        forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView)
+        loginButton = findViewById(R.id.loginButton)
+        passwordEditText = findViewById(R.id.passwordEditText)
+        passwordInputLayout = findViewById(R.id.passwordInputLayout)
+        registerTextView = findViewById(R.id.registerTextView)
+        usernameEditText = findViewById(R.id.usernameEditText)
+        usernameInputLayout = findViewById(R.id.usernameInputLayout)
 
         // Configurar los listeners
         setupListeners()
@@ -141,28 +140,28 @@ class LoginActivity : AppCompatActivity()
     private fun setupObservers()
     {
         // Observa el estado del formulario para habilitar o deshabilitar el botón de iniciar sesión
-        loginViewModel.isFormValid.observe(this, Observer { valid ->
+        loginViewModel.isFormValid.observe(this) { valid ->
             loginButton.isEnabled = valid
-        })
+        }
 
         // Observa el estado del campo de la contraseña para mostrar los errores
-        loginViewModel.isPasswordValid.observe(this, Observer { valid ->
+        loginViewModel.isPasswordValid.observe(this) { valid ->
             if (valid == null || valid.first) {
                 passwordInputLayout.error = null
                 passwordInputLayout.isErrorEnabled = false
             } else {
                 passwordInputLayout.error = valid.second
             }
-        })
+        }
 
         // Observa el estado del campo del usuario para mostrar los errores
-        loginViewModel.isUsernameValid.observe(this, Observer { valid ->
+        loginViewModel.isUsernameValid.observe(this) { valid ->
             if (valid == null || valid.first) {
                 usernameInputLayout.error = null
                 usernameInputLayout.isErrorEnabled = false
             } else {
                 usernameInputLayout.error = valid.second
             }
-        })
+        }
     }
 }
