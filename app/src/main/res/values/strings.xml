@@ -3,7 +3,8 @@
     <string name="app_domain">store.app</string>
     <string name="app_name">store</string>
     <!-- Forgot password -->
-    <string name="forgot_password_recover">Recuperar contraseña</string>
+    <string name="forgot_password_recover">Recuperar</string>
+    <string name="forgot_password_recover_password">Recuperar contraseña</string>
     <!-- Login -->
     <string name="login_app_image">Imagen de la aplicación</string>
     <string name="login_forgot_my_password">Olvidé mi contraseña</string>
