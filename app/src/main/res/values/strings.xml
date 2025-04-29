@@ -16,7 +16,8 @@
     <string name="login_username">Correo electrónico</string>
     <!-- Registro -->
     <string name="register_password">Contraseña</string>
-    <string name="register_sign_up">Registrarme</string>
+    <string name="register_sign_up">Regístrate</string>
+    <string name="register_sign_up_me">Registrarme</string>
     <string name="register_username">Correo electrónico</string>
     <!-- Home -->
     <string name="home_logout">Cerrar sesión</string>
