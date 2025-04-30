@@ -6,6 +6,9 @@
     <string name="forgot_password_recover">Recuperar</string>
     <string name="forgot_password_recover_password">Recuperar contraseña</string>
     <string name="forgot_password_username">Correo electrónico</string>
+    <!-- Home -->
+    <string name="home_logout">Cerrar sesión</string>
+    <string name="home_shopping_cart">Carrito de compras</string>
     <!-- Login -->
     <string name="login_app_image">Imagen de la aplicación</string>
     <string name="login_forgot_my_password">Olvidé mi contraseña</string>
@@ -15,11 +18,10 @@
     <string name="login_sign_up">Registrarme</string>
     <string name="login_username">Correo electrónico</string>
     <!-- Registro -->
+    <string name="register_do_you_already_have_an_account">¿Ya tienes una cuenta?</string>
+    <string name="register_login">Inicia sesión</string>
     <string name="register_password">Contraseña</string>
     <string name="register_sign_up">Regístrate</string>
     <string name="register_sign_up_me">Registrarme</string>
     <string name="register_username">Correo electrónico</string>
-    <!-- Home -->
-    <string name="home_logout">Cerrar sesión</string>
-    <string name="home_shopping_cart">Carrito de compras</string>
 </resources>

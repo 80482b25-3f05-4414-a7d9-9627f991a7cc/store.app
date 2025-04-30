@@ -6,6 +6,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import com.google.android.material.textfield.TextInputLayout
 class RegisterActivity : AppCompatActivity()
 {
     // Elementos gráficos
+    private lateinit var loginTextView: TextView
     private lateinit var registerButton: Button
     private lateinit var passwordEditText: EditText
     private lateinit var passwordInputLayout: TextInputLayout
@@ -37,6 +39,7 @@ class RegisterActivity : AppCompatActivity()
         setContentView(R.layout.activity_register)
 
         // Inicializar los elementos gráficos
+        loginTextView = findViewById(R.id.loginTextView)
         registerButton = findViewById(R.id.registerButton)
         passwordEditText = findViewById(R.id.passwordEditText)
         passwordInputLayout = findViewById(R.id.passwordInputLayout)
@@ -52,6 +55,13 @@ class RegisterActivity : AppCompatActivity()
 
     private fun setupListeners()
     {
+        // Redirigir a la actividad de inicio de sesión
+        loginTextView.setOnClickListener()
+        {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+
         // Iniciar sesión y redirigir a la actividad inicial
         registerButton.setOnClickListener()
         {
@@ -72,7 +82,7 @@ class RegisterActivity : AppCompatActivity()
                 ).show()
             }
 
-            startActivity(Intent(this, LoginActivity::class.java))
+            startActivity(Intent(this, HomeActivity::class.java))
             finish()
         }
 
