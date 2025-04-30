@@ -8,7 +8,7 @@ class ProductDiffCallback : DiffUtil.ItemCallback<ProductModel>()
     // Compara si los dos productos son el mismo, basado en su nombre
     override fun areItemsTheSame(old: ProductModel, new: ProductModel): Boolean
     {
-        return old.name == new.name
+        return old.sku == new.sku
     }
 
     // Compara si los contenidos de los dos productos son iguales
