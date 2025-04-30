@@ -13,4 +13,12 @@
         <item name="android:textColor">@color/redAccent</item>
         <item name="android:textSize">12sp</item>
     </style>
+
+    <style name="Theme.Store.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.Store.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Store.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

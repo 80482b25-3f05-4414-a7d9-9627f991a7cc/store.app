@@ -68,13 +68,7 @@ class RegisterActivity : AppCompatActivity()
             val username = usernameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (registerViewModel.validateIfUserExists(username = username))
-            {
-                Toast.makeText(
-                    this, "Ya estás registrad@, inicia sesión.", Toast.LENGTH_SHORT
-                ).show()
-            }
-            else
+            if (!registerViewModel.validateIfUserExists(username = username, password = password))
             {
                 registerViewModel.register(username, password)
                 Toast.makeText(

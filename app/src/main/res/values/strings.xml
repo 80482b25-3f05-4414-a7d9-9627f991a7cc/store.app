@@ -1,15 +1,36 @@
 <resources>
-    <!-- Aplicación -->
+    <!-- ####################################################################################### -->
+    <!-- Aplicación                                                                              -->
+    <!-- ####################################################################################### -->
+
     <string name="app_domain">store.app</string>
     <string name="app_name">store</string>
-    <!-- Forgot password -->
+
+    <!-- ####################################################################################### -->
+    <!-- Forgot password                                                                         -->
+    <!-- ####################################################################################### -->
+
     <string name="forgot_password_recover">Recuperar</string>
     <string name="forgot_password_recover_password">Recuperar contraseña</string>
     <string name="forgot_password_username">Correo electrónico</string>
-    <!-- Home -->
+
+    <!-- ####################################################################################### -->
+    <!-- Home                                                                                    -->
+    <!-- ####################################################################################### -->
+
     <string name="home_logout">Cerrar sesión</string>
+    <string name="home_navigation_drawer_header_profile_email">username@domain.ext</string>
+    <string name="home_navigation_drawer_header_profile_name">Username</string>
+    <string name="home_navigation_drawer_header_profile_photo">Foto de perfil</string>
+    <string name="home_navigation_drawer_menu_catalog">Catálogo</string>
+    <string name="home_navigation_drawer_menu_orders">Mis pedidos</string>
+    <string name="home_navigation_drawer_menu_profile">Mi perfil</string>
     <string name="home_shopping_cart">Carrito de compras</string>
-    <!-- Login -->
+
+    <!-- ####################################################################################### -->
+    <!-- Login                                                                                   -->
+    <!-- ####################################################################################### -->
+
     <string name="login_app_image">Imagen de la aplicación</string>
     <string name="login_forgot_my_password">Olvidé mi contraseña</string>
     <string name="login_greeting">Hola, nos alegra volver a verte!</string>
@@ -17,11 +38,17 @@
     <string name="login_sign_in">Inicia sesión</string>
     <string name="login_sign_up">Registrarme</string>
     <string name="login_username">Correo electrónico</string>
-    <!-- Registro -->
+
+    <!-- ####################################################################################### -->
+    <!-- Registro                                                                                -->
+    <!-- ####################################################################################### -->
+
     <string name="register_do_you_already_have_an_account">¿Ya tienes una cuenta?</string>
     <string name="register_login">Inicia sesión</string>
     <string name="register_password">Contraseña</string>
     <string name="register_sign_up">Regístrate</string>
     <string name="register_sign_up_me">Registrarme</string>
     <string name="register_username">Correo electrónico</string>
+
+    <!-- ####################################################################################### -->
 </resources>

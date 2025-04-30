@@ -83,10 +83,11 @@ class RegisterViewModel : ViewModel()
     }
 
     // Validar si el usuario ya existe
-    fun validateIfUserExists(username: String): Boolean
+    fun validateIfUserExists(username: String, password: String): Boolean
     {
-        return UserRepository.existsUserByEmail(
-            username = username
+        return UserRepository.existsUserByEmailAndPassword(
+            username = username,
+            password = password
         )
     }
 

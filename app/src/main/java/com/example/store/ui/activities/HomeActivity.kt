@@ -1,81 +1,52 @@
 package com.example.store.ui.activities
 
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.viewModels
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.navigation.NavigationView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.store.R
-import com.example.store.adapter.ProductsAdapter
 import com.example.store.databinding.ActivityHomeBinding
-import com.example.store.model.Product
-import com.example.store.viewmodel.HomeViewModel
 
-class HomeActivity : AppCompatActivity() {
-
+class HomeActivity : AppCompatActivity()
+{
+    private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityHomeBinding
-    private val homeViewModel: HomeViewModel by viewModels()
 
-    private val adapter = ProductsAdapter { product, newQuantity ->
-        Log.d("HomeActivity", "Cantidad de ${product.name} cambiada a $newQuantity")
-        updateCart(product)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
+
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        setupToolbar()
-        setupRecyclerView()
-        setupObservers()
-        setupListeners()
-    }
+        setSupportActionBar(binding.appBarHome.toolbar)
 
-    private fun setupToolbar() {
-        setSupportActionBar(binding.toolbar)
-        binding.toolbar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_logout -> {
-                    finish() // Cerrar sesión y cerrar la actividad
-                    true
-                }
-                else -> false
-            }
+        binding.appBarHome.fab.setOnClickListener { view ->
+            Snackbar.make(view, "Carrito de compras", Snackbar.LENGTH_SHORT)
+                .setAction("Action", null)
+                .setAnchorView(R.id.fab).show()
         }
+
+        val drawerLayout: DrawerLayout = binding.drawerLayout
+        val navView: NavigationView = binding.navView
+        val navController = findNavController(R.id.nav_host_fragment_content_home)
+
+        appBarConfiguration = AppBarConfiguration(
+            setOf(R.id.catalogFragment, R.id.ordersFragment, R.id.profileFragment), drawerLayout
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        navView.setupWithNavController(navController)
     }
 
-    private fun setupRecyclerView() {
-        binding.recyclerViewProducts.layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewProducts.adapter = adapter
-
-        binding.recyclerViewProducts.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (!recyclerView.canScrollVertically(1)) { // Detecta cuando llegamos al fondo
-                    homeViewModel.loadMoreProducts()
-                }
-            }
-        })
-    }
-
-    private fun setupObservers() {
-        homeViewModel.products.observe(this) { products ->
-            adapter.submitList(products.toList()) // Importante: enviar una copia para forzar actualización
-        }
-    }
-
-    private fun setupListeners() {
-        binding.fabCart.setOnClickListener {
-            // Lógica para ir al carrito
-            // startActivity(Intent(this, CartActivity::class.java))
-        }
-    }
-
-    private fun updateCart(product: Product) {
-        Log.d("HomeActivity", "Producto añadido al carrito: ${product.name} con cantidad: ${product.quantity}")
+    override fun onSupportNavigateUp(): Boolean
+    {
+        val navController = findNavController(R.id.nav_host_fragment_content_home)
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 }
-
