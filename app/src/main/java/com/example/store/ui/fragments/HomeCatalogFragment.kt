@@ -4,38 +4,52 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.store.databinding.FragmentHomeCatalogBinding
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.store.adapter.ProductAdapter
+import com.example.store.R
 import com.example.store.viewmodel.HomeCatalogViewModel
 
 class HomeCatalogFragment : Fragment()
 {
-    private var _binding: FragmentHomeCatalogBinding? = null
-    private val binding get() = _binding!!
+    private val viewModel: HomeCatalogViewModel by viewModels()
+    private lateinit var adapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View
     {
-        val homeCatalogViewModel = ViewModelProvider(this)[HomeCatalogViewModel::class.java]
+        val view = inflater.inflate(R.layout.fragment_home_catalog, container, false)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.productsRecycler)
 
-        _binding = FragmentHomeCatalogBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = ProductAdapter()
+        recyclerView.adapter = adapter
 
-        val textView: TextView = binding.catalogTextView
+        // Scroll infinito, cargar más productos cuando se llega al final de la pantalla
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener()
+        {
+            override fun onScrolled(rv: RecyclerView, dx: Int, dy: Int)
+            {
+                super.onScrolled(rv, dx, dy)
+                val layoutManager = rv.layoutManager as LinearLayoutManager
 
-        homeCatalogViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+                if (layoutManager.findLastVisibleItemPosition() == adapter.itemCount - 1)
+                {
+                    viewModel.loadMoreProducts()
+                }
+            }
+        })
+
+        // Observar cambios en la lista de productos del ViewModel
+        viewModel.products.observe(viewLifecycleOwner) { products ->
+            adapter.submitList(products.toList())
         }
 
-        return root
-    }
-
-    override fun onDestroyView()
-    {
-        super.onDestroyView()
-        _binding = null
+        // Inicializar la carga de productos
+        viewModel.loadMoreProducts()
+        return view
     }
 }
