@@ -25,7 +25,10 @@
     <string name="home_navigation_drawer_menu_catalog">Catálogo</string>
     <string name="home_navigation_drawer_menu_orders">Mis pedidos</string>
     <string name="home_navigation_drawer_menu_profile">Mi perfil</string>
+    <string name="home_product_add_to_cart">Agregar al carrito</string>
+    <string name="home_product_image">Imagen del producto</string>
     <string name="home_product_price">$%1$s</string>
+    <string name="home_product_remove_from_cart">Quitar del carrito</string>
     <string name="home_shopping_cart">Carrito de compras</string>
 
     <!-- ####################################################################################### -->
