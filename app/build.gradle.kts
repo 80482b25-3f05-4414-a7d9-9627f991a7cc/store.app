@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.appcompat)
+    implementation(libs.google.maps)
     implementation(libs.material)
     implementation(platform(libs.androidx.compose.bom))
     kapt(libs.androidx.room.compiler)
