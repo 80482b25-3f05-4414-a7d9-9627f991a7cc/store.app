@@ -13,10 +13,17 @@
         <item
             android:id="@+id/ordersFragment"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/home_navigation_drawer_menu_orders" />
+            android:title="@string/home_navigation_drawer_menu_orders"
+            />
         <item
             android:id="@+id/profileFragment"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/home_navigation_drawer_menu_profile" />
+            android:title="@string/home_navigation_drawer_menu_profile"
+            />
+        <item
+            android:id="@+id/ourStoresFragment"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="@string/home_navigation_drawer_menu_our_stores"
+            />
     </group>
 </menu>

@@ -24,4 +24,10 @@
         android:name="com.example.store.ui.fragments.HomeProfileFragment"
         tools:layout="@layout/fragment_home_profile"
         />
+    <fragment
+        android:id="@+id/ourStoresFragment"
+        android:label="@string/home_navigation_drawer_menu_our_stores"
+        android:name="com.example.store.ui.fragments.HomeOurStoresFragment"
+        tools:layout="@layout/fragment_home_our_stores"
+        />
 </navigation>

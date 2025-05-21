@@ -24,6 +24,7 @@
     <string name="home_navigation_drawer_header_profile_photo">Foto de perfil</string>
     <string name="home_navigation_drawer_menu_catalog">Catálogo</string>
     <string name="home_navigation_drawer_menu_orders">Mis pedidos</string>
+    <string name="home_navigation_drawer_menu_our_stores">Nuestras tiendas</string>
     <string name="home_navigation_drawer_menu_profile">Mi perfil</string>
     <string name="home_product_add_to_cart">Agregar al carrito</string>
     <string name="home_product_image">Imagen del producto</string>
