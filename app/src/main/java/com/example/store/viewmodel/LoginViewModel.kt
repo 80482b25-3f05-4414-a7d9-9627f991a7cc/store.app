@@ -5,6 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.store.data.UserRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 
 class LoginViewModel : ViewModel()
 {
@@ -19,6 +22,10 @@ class LoginViewModel : ViewModel()
     // LiveData para mostrar errores en el campo del usuario
     private val _isUsernameValid = MutableLiveData<Pair<Boolean, String>?>(null)
     val isUsernameValid: LiveData<Pair<Boolean, String>?> = _isUsernameValid
+
+    // LiveData para el resultado de inicio de sesión con Google
+    private val _googleSignInResult = MutableLiveData<Result<FirebaseUser?>>()
+    val googleSignInResult: LiveData<Result<FirebaseUser?>> = _googleSignInResult
 
     // Variables para guardar temporalmente lo que el usuario va escribiendo
     private var currentUsername: String = ""
@@ -88,6 +95,20 @@ class LoginViewModel : ViewModel()
             username = username,
             password = password
         )
+    }
+
+    fun loginWithGoogle(idToken: String)
+    {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        FirebaseAuth.getInstance()
+            .signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    _googleSignInResult.postValue(Result.success(task.result?.user))
+                } else {
+                    _googleSignInResult.postValue(Result.failure(task.exception ?: Exception("Error desconocido")))
+                }
+            }
     }
 
     companion object {

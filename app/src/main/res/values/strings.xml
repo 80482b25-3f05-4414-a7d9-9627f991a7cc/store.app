@@ -43,6 +43,13 @@
     <string name="login_sign_in">Inicia sesión</string>
     <string name="login_sign_up">Registrarme</string>
     <string name="login_username">Correo electrónico</string>
+    <string name="login_with_google">Inicia sesión con Google</string>
+
+    <!-- ####################################################################################### -->
+    <!-- Login with Google                                                                       -->
+    <!-- ####################################################################################### -->
+
+    <string name="login_with_google_web_client_id">858035782453-i88765k2uh0fibocjsrca1hstj67pchj.apps.googleusercontent.com</string>
 
     <!-- ####################################################################################### -->
     <!-- Registro                                                                                -->

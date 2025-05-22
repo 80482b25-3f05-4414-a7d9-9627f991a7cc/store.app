@@ -8,12 +8,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
 import com.example.store.R
 import com.example.store.viewmodel.LoginViewModel
 import com.example.store.viewmodel.SplashViewModel
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputLayout
 
 class LoginActivity : AppCompatActivity()
@@ -21,6 +26,7 @@ class LoginActivity : AppCompatActivity()
     // Elementos gráficos
     private lateinit var forgotPasswordTextView: TextView
     private lateinit var loginButton: Button
+    private lateinit var loginWithGoogleButton: Button
     private lateinit var passwordEditText: EditText
     private lateinit var passwordInputLayout: TextInputLayout
     private lateinit var registerTextView: TextView
@@ -30,6 +36,25 @@ class LoginActivity : AppCompatActivity()
     // View models
     private lateinit var loginViewModel: LoginViewModel
     private lateinit var splashViewModel: SplashViewModel
+
+    // Cliente de Google
+    private lateinit var googleSignInClient: GoogleSignInClient
+
+    private val signInLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try
+        {
+            val account = task.getResult(ApiException::class.java)
+            account?.idToken?.let { idToken ->
+                loginViewModel.loginWithGoogle(idToken)
+            }
+        }
+        catch(e: ApiException)
+        {
+            Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -56,6 +81,7 @@ class LoginActivity : AppCompatActivity()
         // Inicializar los elementos gráficos
         forgotPasswordTextView = findViewById(R.id.forgotPasswordTextView)
         loginButton = findViewById(R.id.loginButton)
+        loginWithGoogleButton = findViewById<Button>(R.id.loginWithGoogleButton)
         passwordEditText = findViewById(R.id.passwordEditText)
         passwordInputLayout = findViewById(R.id.passwordInputLayout)
         registerTextView = findViewById(R.id.registerTextView)
@@ -67,6 +93,14 @@ class LoginActivity : AppCompatActivity()
 
         // Configurar los observers
         setupObservers()
+
+        // Inicio de sesión con Google
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.login_with_google_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
     }
 
     private fun setupListeners()
@@ -135,6 +169,11 @@ class LoginActivity : AppCompatActivity()
                 s: CharSequence?, start: Int, before: Int, count: Int
             ) { }
         })
+
+        // Iniciar sesión con Google
+        loginWithGoogleButton.setOnClickListener {
+            signInLauncher.launch(googleSignInClient.signInIntent)
+        }
     }
 
     private fun setupObservers()
@@ -162,6 +201,17 @@ class LoginActivity : AppCompatActivity()
             } else {
                 usernameInputLayout.error = valid.second
             }
+        }
+
+        // Inicio de sesión con Google
+        loginViewModel.googleSignInResult.observe(this) { result ->
+            result
+                .onSuccess { _ ->
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    finish()
+                }.onFailure {
+                    Toast.makeText(this, "Error al iniciar sesión", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 }

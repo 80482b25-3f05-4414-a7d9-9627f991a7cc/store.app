@@ -7,6 +7,8 @@ constraintlayout = "2.2.1"
 coreKtx = "1.16.0"
 coreSplashScreen = "1.0.1"
 espressoCore = "3.6.1"
+firebaseAuthKtx = "23.2.1"
+firebaseBom = "33.14.0"
 googleMaps = "19.2.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -17,6 +19,7 @@ lifecycleViewmodelKtx = "2.9.0"
 material = "1.12.0"
 navigationFragmentKtx = "2.9.0"
 navigationUiKtx = "2.9.0"
+playServicesAuth = "21.3.0"
 room = "2.7.1"
 
 [libraries]
@@ -43,9 +46,12 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appCompat" }
+firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 google-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "googleMaps" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "playServicesAuth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

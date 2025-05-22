@@ -63,9 +63,12 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.appcompat)
+    implementation(libs.firebase.auth.ktx)
     implementation(libs.google.maps)
     implementation(libs.material)
+    implementation(libs.play.services.auth)
     implementation(platform(libs.androidx.compose.bom))
+    implementation(platform(libs.firebase.bom))
     kapt(libs.androidx.room.compiler)
     // Test implementation
     testImplementation(libs.junit)
@@ -75,5 +78,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.gms.google-services")
     id("kotlin-kapt")
 }
