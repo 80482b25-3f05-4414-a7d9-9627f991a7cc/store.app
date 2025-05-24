@@ -9,9 +9,14 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.store.R
+import com.example.store.data.repository.UserRepository
+import com.example.store.database.StoreDatabase
 import com.example.store.viewmodel.ForgotPasswordViewModel
+import com.example.store.viewmodel.GenericViewModelFactory
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 
 class ForgotPasswordActivity : AppCompatActivity()
 {
@@ -26,7 +31,11 @@ class ForgotPasswordActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         // Inicializa el view model de la forgot password activity
-        forgotPasswordViewModel = ViewModelProvider(this)[ForgotPasswordViewModel::class.java]
+        val db = StoreDatabase.getDatabase(applicationContext)
+        val userDAO = db.userDao()
+        val repository = UserRepository(userDAO)
+        val factory = GenericViewModelFactory { ForgotPasswordViewModel(repository) }
+        forgotPasswordViewModel = ViewModelProvider(this, factory)[ForgotPasswordViewModel::class.java]
 
         // Inicializar la forgot password activity
         super.onCreate(savedInstanceState)
@@ -53,16 +62,18 @@ class ForgotPasswordActivity : AppCompatActivity()
         {
             val username = usernameEditText.text.toString().trim()
 
-            if (forgotPasswordViewModel.validateIfUserExists(username = username))
-            {
-                forgotPasswordViewModel.recoverPassword(username = username)
-            }
+            lifecycleScope.launch {
+                if (forgotPasswordViewModel.validateIfUserExists(username = username))
+                {
+                    forgotPasswordViewModel.recoverPassword(username = username)
+                }
 
-            Toast.makeText(
-                this, "Te enviamos un correo de recuperación.", Toast.LENGTH_SHORT
-            ).show()
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+                Toast.makeText(
+                    this@ForgotPasswordActivity, "Te enviamos un correo de recuperación.", Toast.LENGTH_SHORT
+                ).show()
+                startActivity(Intent(this@ForgotPasswordActivity, LoginActivity::class.java))
+                finish()
+            }
         }
 
         // Escucha los cambios en el campo usuario

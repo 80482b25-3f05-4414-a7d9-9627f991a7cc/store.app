@@ -12,7 +12,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.store.R
+import com.example.store.data.repository.UserRepository
+import com.example.store.database.StoreDatabase
+import com.example.store.viewmodel.GenericViewModelFactory
 import com.example.store.viewmodel.LoginViewModel
 import com.example.store.viewmodel.SplashViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -20,6 +24,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity()
 {
@@ -62,7 +67,11 @@ class LoginActivity : AppCompatActivity()
         val splashScreen = installSplashScreen()
 
         // Inicializa el view model de la login activity
-        loginViewModel = ViewModelProvider(this)[LoginViewModel::class.java]
+        val db = StoreDatabase.getDatabase(applicationContext)
+        val userDAO = db.userDao()
+        val repository = UserRepository(userDAO)
+        val factory = GenericViewModelFactory { LoginViewModel(repository) }
+        loginViewModel = ViewModelProvider(this, factory)[LoginViewModel::class.java]
 
         // Inicializa el view model de la splash screen
         splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
@@ -118,14 +127,16 @@ class LoginActivity : AppCompatActivity()
             val username = usernameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (loginViewModel.validateLogin(username, password))
-            {
-                startActivity(Intent(this, HomeActivity::class.java))
-                finish()
-            }
-            else
-            {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                if (loginViewModel.validateLogin(username, password))
+                {
+                    startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
+                    finish()
+                }
+                else
+                {
+                    Toast.makeText(this@LoginActivity, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

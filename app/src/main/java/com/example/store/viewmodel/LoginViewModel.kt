@@ -4,12 +4,12 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.store.data.UserRepository
+import com.example.store.data.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 
-class LoginViewModel : ViewModel()
+class LoginViewModel(private val repository: UserRepository) : ViewModel()
 {
     // LiveData para habilitar o deshabilitar el botón de inicio de sesión
     private val _isFormValid = MutableLiveData(false)
@@ -89,9 +89,9 @@ class LoginViewModel : ViewModel()
     }
 
     // Simular la búsqueda del usuario en la base de datos
-    fun validateLogin(username: String, password: String): Boolean
+    suspend fun validateLogin(username: String, password: String): Boolean
     {
-        return UserRepository.existsUserByEmailAndPassword(
+        return repository.existsUserByEmailAndPassword(
             username = username,
             password = password
         )

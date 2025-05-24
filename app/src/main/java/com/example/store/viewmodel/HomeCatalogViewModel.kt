@@ -3,7 +3,7 @@ package com.example.store.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.store.data.ProductRepository
+import com.example.store.data.repository.ProductRepository
 import com.example.store.model.ProductModel
 
 class HomeCatalogViewModel : ViewModel()

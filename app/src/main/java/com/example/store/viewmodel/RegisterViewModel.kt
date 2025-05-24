@@ -4,10 +4,10 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.store.data.UserRepository
+import com.example.store.data.repository.UserRepository
 import com.example.store.model.UserModel
 
-class RegisterViewModel : ViewModel()
+class RegisterViewModel(private val repository: UserRepository) : ViewModel()
 {
     // LiveData para habilitar o deshabilitar el botón de registro
     private val _isFormValid = MutableLiveData(false)
@@ -83,19 +83,21 @@ class RegisterViewModel : ViewModel()
     }
 
     // Validar si el usuario ya existe
-    fun validateIfUserExists(username: String, password: String): Boolean
+    suspend fun validateIfUserExists(username: String, password: String): Boolean
     {
-        return UserRepository.existsUserByEmailAndPassword(
+        return repository.existsUserByEmailAndPassword(
             username = username,
             password = password
         )
     }
 
     // Simular la inserción del usuario en la base de datos
-    fun register(username: String, password: String)
+    suspend fun register(username: String, password: String)
     {
-        return UserRepository.addUser(
-            UserModel(username = username, password = password)
+        return repository.addUser(
+            UserModel(
+                username = username, password = password, role = "client", fullName = "-"
+            )
         )
     }
 

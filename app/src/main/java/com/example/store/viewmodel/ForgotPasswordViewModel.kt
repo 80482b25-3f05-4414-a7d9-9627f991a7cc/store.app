@@ -4,9 +4,9 @@ import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.store.data.UserRepository
+import com.example.store.data.repository.UserRepository
 
-class ForgotPasswordViewModel : ViewModel()
+class ForgotPasswordViewModel(private val repository: UserRepository) : ViewModel()
 {
     // LiveData para habilitar o deshabilitar el botón de recuperar contraseña
     private val _isFormValid = MutableLiveData(false)
@@ -51,16 +51,16 @@ class ForgotPasswordViewModel : ViewModel()
     }
 
     // Validar si el usuario ya existe
-    fun validateIfUserExists(username: String): Boolean
+    suspend fun validateIfUserExists(username: String): Boolean
     {
-        return UserRepository.existsUserByEmail(
+        return repository.existsUserByEmail(
             username = username
         )
     }
 
     // Simular la recuperación de la contraseña
-    fun recoverPassword(username: String)
+    suspend fun recoverPassword(username: String)
     {
-        return UserRepository.resetPassword(username = username)
+        return repository.resetPassword(username = username)
     }
 }

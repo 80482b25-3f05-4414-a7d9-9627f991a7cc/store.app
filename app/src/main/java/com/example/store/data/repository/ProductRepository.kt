@@ -1,4 +1,4 @@
-package com.example.store.data
+package com.example.store.data.repository
 
 import com.example.store.R
 import com.example.store.model.ProductModel

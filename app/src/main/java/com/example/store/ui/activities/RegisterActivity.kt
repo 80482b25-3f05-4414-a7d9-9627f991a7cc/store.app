@@ -10,9 +10,14 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.store.R
+import com.example.store.data.repository.UserRepository
+import com.example.store.database.StoreDatabase
+import com.example.store.viewmodel.GenericViewModelFactory
 import com.example.store.viewmodel.RegisterViewModel
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 
 class RegisterActivity : AppCompatActivity()
 {
@@ -30,7 +35,11 @@ class RegisterActivity : AppCompatActivity()
     override fun onCreate(savedInstanceState: Bundle?)
     {
         // Inicializa el view model de la register activity
-        registerViewModel = ViewModelProvider(this)[RegisterViewModel::class.java]
+        val db = StoreDatabase.getDatabase(applicationContext)
+        val userDAO = db.userDao()
+        val repository = UserRepository(userDAO)
+        val factory = GenericViewModelFactory { RegisterViewModel(repository) }
+        registerViewModel = ViewModelProvider(this, factory)[RegisterViewModel::class.java]
 
         // Inicializar la register activity
         super.onCreate(savedInstanceState)
@@ -68,16 +77,20 @@ class RegisterActivity : AppCompatActivity()
             val username = usernameEditText.text.toString().trim()
             val password = passwordEditText.text.toString().trim()
 
-            if (!registerViewModel.validateIfUserExists(username = username, password = password))
-            {
-                registerViewModel.register(username, password)
-                Toast.makeText(
-                    this, "Bienvenid@ $username!", Toast.LENGTH_SHORT
-                ).show()
-            }
+            lifecycleScope.launch {
+                if (!registerViewModel.validateIfUserExists(username = username, password = password))
+                {
+                    lifecycleScope.launch {
+                        registerViewModel.register(username, password)
+                    }
+                    Toast.makeText(
+                        this@RegisterActivity, "Bienvenid@ $username!", Toast.LENGTH_SHORT
+                    ).show()
+                }
 
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+                startActivity(Intent(this@RegisterActivity, HomeActivity::class.java))
+                finish()
+            }
         }
 
         // Escucha los cambios en el campo contraseña
